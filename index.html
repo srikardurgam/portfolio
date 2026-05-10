@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Srikar — Data & AI Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0f12;
+      --surface: #161a1f;
+      --surface2: #1e2329;
+      --border: rgba(255,255,255,0.07);
+      --text: #e8e6e0;
+      --muted: #7a7d82;
+      --accent: #c8f5a0;
+      --accent2: #6ee7b7;
+      --tag-bg: rgba(200,245,160,0.08);
+      --tag-border: rgba(200,245,160,0.2);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      background: rgba(13,15,18,0.85);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 2rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-sub {
+      font-size: 1.125rem;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0d0f12;
+    }
+    .btn-primary:hover { background: #d4f8b0; transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+
+    .hero-stats {
+      margin-top: 4rem;
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .stat-item {}
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--text);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.05em;
+    }
+
+    /* Section wrapper */
+    section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 480px;
+      margin-bottom: 3rem;
+    }
+
+    /* Projects grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.75rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-card:hover {
+      border-color: rgba(200,245,160,0.25);
+      transform: translateY(-2px);
+    }
+    .project-card.featured {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+    .project-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .project-featured-icon {
+      font-size: 2.5rem;
+      flex-shrink: 0;
+      width: 64px;
+    }
+    .project-badge {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 2px;
+      background: var(--tag-bg);
+      border: 1px solid var(--tag-border);
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .project-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .project-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 1.25rem;
+    }
+    .tag {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 2px;
+      background: var(--surface2);
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+    }
+    .coming-soon {
+      opacity: 0.45;
+      cursor: default;
+    }
+    .coming-soon:hover { transform: none; border-color: var(--border); }
+
+    /* Skills */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .skill-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    .skill-group-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .skill-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .skill-list li {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+    .about-text p strong { color: var(--text); font-weight: 500; }
+    .about-exp {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .exp-item {
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+    }
+    .exp-role {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .exp-company {
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'DM Mono', monospace;
+      margin-top: 2px;
+    }
+    .exp-years {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* Contact */
+    .contact-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.75rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .contact-link:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+    .contact-icon { font-size: 1.25rem; }
+
+    /* Divider */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Footer */
+    footer {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* Dot grid bg */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    nav, .hero, section, footer { position: relative; z-index: 1; }
+
+    @media (max-width: 640px) {
+      .project-card.featured { flex-direction: column; }
+      .about-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 2rem; }
+      nav { padding: 1rem; }
+      .nav-links { gap: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <span class="nav-logo">srikar.dev</span>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <p class="hero-eyebrow">// Lead Analyst → AI Builder</p>
+    <h1>Turning customer data<br>into <em>decisions.</em></h1>
+    <p class="hero-sub">
+      Data & AI projects I've led end-to-end — from problem framing to production. Covering predictive modeling, NLP, and AI-powered applications. Lead Analyst driving customer analytics strategy at American Airlines.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">AI Projects</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">7+</div>
+        <div class="stat-label">Years in Analytics</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">SQL · Python · ML</div>
+        <div class="stat-label">Core Stack</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects -->
+  <section id="projects">
+    <p class="section-label">// 01 — Work</p>
+    <h2 class="section-title">Featured Projects</h2>
+    <p class="section-sub">End-to-end AI and ML projects built on public datasets. Each includes source code and a live demo.</p>
+
+    <div class="projects-grid">
+
+      <a href="#" class="project-card featured coming-soon">
+        <div class="project-featured-icon">🔍</div>
+        <div>
+          <span class="project-badge">In Progress</span>
+          <h3>AI-Powered SQL Query Assistant</h3>
+          <p>Natural language to SQL — type what you want from a database in plain English and get a production-ready query back. Built with the Claude API and a sample Northwind database. Aimed at reducing friction for non-technical stakeholders.</p>
+          <div class="project-tags">
+            <span class="tag">Claude API</span>
+            <span class="tag">Python</span>
+            <span class="tag">Streamlit</span>
+            <span class="tag">SQLite</span>
+            <span class="tag">NLP</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="project-card coming-soon">
+        <div class="project-icon">📉</div>
+        <span class="project-badge">Coming Soon</span>
+        <h3>Customer Churn Predictor</h3>
+        <p>XGBoost model trained on the Kaggle Telco Churn dataset. Predicts churn probability with SHAP-based plain-English explanations per customer.</p>
+        <div class="project-tags">
+          <span class="tag">XGBoost</span>
+          <span class="tag">SHAP</span>
+          <span class="tag">Streamlit</span>
+          <span class="tag">Kaggle</span>
+        </div>
+      </a>
+
+      <a href="#" class="project-card coming-soon">
+        <div class="project-icon">📊</div>
+        <span class="project-badge">Coming Soon</span>
+        <h3>NPS Driver Analysis Tool</h3>
+        <p>Sentiment analysis + topic modeling on airline reviews to surface the top satisfaction drivers. Interactive filters by route, class, and date range.</p>
+        <div class="project-tags">
+          <span class="tag">NLP</span>
+          <span class="tag">Sentiment</span>
+          <span class="tag">Plotly</span>
+          <span class="tag">Public Reviews</span>
+        </div>
+      </a>
+
+      <a href="#" class="project-card coming-soon">
+        <div class="project-icon">📈</div>
+        <span class="project-badge">Coming Soon</span>
+        <h3>Demand Forecasting Dashboard</h3>
+        <p>Time series forecast on public airline passenger data using SARIMA + Prophet ensemble. Scenario sliders, confidence intervals, and model comparison.</p>
+        <div class="project-tags">
+          <span class="tag">SARIMA</span>
+          <span class="tag">Prophet</span>
+          <span class="tag">Plotly</span>
+          <span class="tag">Time Series</span>
+        </div>
+      </a>
+
+      <a href="#" class="project-card coming-soon">
+        <div class="project-icon">📄</div>
+        <span class="project-badge">Coming Soon</span>
+        <h3>Resume–JD Gap Analyzer</h3>
+        <p>Paste a resume and job description — get a match score and specific gap recommendations using NLP and the Claude API.</p>
+        <div class="project-tags">
+          <span class="tag">Claude API</span>
+          <span class="tag">NLP</span>
+          <span class="tag">Streamlit</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Skills -->
+  <section id="skills">
+    <p class="section-label">// 02 — Stack</p>
+    <h2 class="section-title">Tools & Technologies</h2>
+    <p class="section-sub">What I reach for day-to-day across analytics and AI work.</p>
+
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-label">Data & Analytics</div>
+        <ul class="skill-list">
+          <li>SQL (advanced)</li>
+          <li>Python (pandas, numpy)</li>
+          <li>Databricks</li>
+          <li>Tableau / Plotly</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Machine Learning</div>
+        <ul class="skill-list">
+          <li>Scikit-learn</li>
+          <li>XGBoost / LightGBM</li>
+          <li>SHAP (explainability)</li>
+          <li>SARIMA / Prophet</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">AI & NLP</div>
+        <ul class="skill-list">
+          <li>Claude / OpenAI APIs</li>
+          <li>Prompt engineering</li>
+          <li>Sentiment analysis</li>
+          <li>Topic modeling</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Deployment</div>
+        <ul class="skill-list">
+          <li>Streamlit</li>
+          <li>GitHub / Git</li>
+          <li>Vercel</li>
+          <li>Jupyter Notebooks</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- About -->
+  <section id="about">
+    <p class="section-label">// 03 — Background</p>
+    <h2 class="section-title">About Me</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a <strong>Lead Analyst in Customer Research & Digital Analytics</strong> at American Airlines, where I own and drive NPS forecasting models, automated reporting pipelines, and customer satisfaction strategy — working as an IC leader from problem definition through to executive presentation.
+        </p>
+        <p>
+          I don't just run analysis — I <strong>scope the problem, design the methodology, and ship the output</strong>. Every project here follows that same pattern: a real business question, a defensible approach, and a working product stakeholders can actually use.
+        </p>
+        <p>
+          Building this portfolio to move into an <strong>Analytics Manager or AI team lead role</strong> — where I can do for a team what I've been doing solo. MS in Business Analytics from Wake Forest. Background spanning American Airlines, Delta, Comcast, and Google.
+        </p>
+      </div>
+      <div class="about-exp">
+        <div class="exp-item">
+          <div class="exp-role">Lead Analyst — Customer Research & Digital Analytics</div>
+          <div class="exp-company">American Airlines</div>
+          <div class="exp-years">Current</div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-role">Analytics Roles</div>
+          <div class="exp-company">Delta Airlines · Comcast · Google</div>
+          <div class="exp-years">Prior Experience</div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-role">MS Business Analytics</div>
+          <div class="exp-company">Wake Forest University</div>
+          <div class="exp-years">Graduate</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Contact -->
+  <section id="contact">
+    <p class="section-label">// 04 — Contact</p>
+    <h2 class="section-title">Let's Connect</h2>
+    <p class="section-sub">Open to Analytics Manager, AI Product, and Senior Data Science roles where I can lead a team.</p>
+    <div class="contact-row">
+      <a href="https://github.com" class="contact-link" target="_blank">
+        <span class="contact-icon">⌥</span> GitHub
+      </a>
+      <a href="https://linkedin.com" class="contact-link" target="_blank">
+        <span class="contact-icon">in</span> LinkedIn
+      </a>
+      <a href="mailto:your@email.com" class="contact-link">
+        <span class="contact-icon">@</span> Email
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span>srikar.dev</span>
+    <span>built with Python · deployed on Vercel</span>
+  </footer>
+
+</body>
+</html>
